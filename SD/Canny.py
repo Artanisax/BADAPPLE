@@ -20,14 +20,21 @@ class SD3CannyImageProcessor(VaeImageProcessor):
 
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    print("device:", device)
     
-    controlnet = SD3ControlNetModel.from_pretrained("stabilityai/stable-diffusion-3.5-large-controlnet-canny", torch_dtype=torch.float16)
+    controlnet = SD3ControlNetModel.from_pretrained(
+        "stabilityai/stable-diffusion-3.5-large-controlnet-canny",
+        torch_dtype=torch.float16
+    ).to(device)
+    print("ControlNet Loaded.")
+    
     pipe = StableDiffusion3ControlNetPipeline.from_pretrained(
         "stabilityai/stable-diffusion-3.5-large",
         controlnet=controlnet,
         torch_dtype=torch.float16
-    ).to("cuda")
+    ).to(device)
     pipe.image_processor = SD3CannyImageProcessor()
+    print("Pipeline Loaded.")
 
     control_image = load_image(
         "https://huggingface.co/datasets/diffusers/diffusers-images-docs/resolve/main/canny.png",
