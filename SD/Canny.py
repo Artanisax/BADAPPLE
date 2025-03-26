@@ -25,7 +25,7 @@ if __name__ == "__main__":
     controlnet = SD3ControlNetModel.from_pretrained(
         ".cache/stabilityai/stable-diffusion-3.5-large-controlnet-canny",
         torch_dtype=torch.float16,
-    )#.to(device)
+    )
     print("ControlNet Loaded.")
     
     pipe = StableDiffusion3ControlNetPipeline.from_pretrained(
