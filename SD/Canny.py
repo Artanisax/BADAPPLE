@@ -49,4 +49,4 @@ if __name__ == "__main__":
         generator=generator,
         max_sequence_length=77,
     ).images[0]
-    image.save(f'canny-controlled.jpg')
+    image.save(f'example/canny-controlled.jpg')
