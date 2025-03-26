@@ -23,22 +23,20 @@ if __name__ == "__main__":
     print("device:", device)
     
     controlnet = SD3ControlNetModel.from_pretrained(
-        "stabilityai/stable-diffusion-3.5-large-controlnet-canny",
-        torch_dtype=torch.float16
-    ).to(device)
+        ".cache/stabilityai/stable-diffusion-3.5-large-controlnet-canny",
+        torch_dtype=torch.float16,
+    )#.to(device)
     print("ControlNet Loaded.")
     
     pipe = StableDiffusion3ControlNetPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-3.5-large",
+        ".cache/stabilityai/stable-diffusion-3.5-large",
         controlnet=controlnet,
         torch_dtype=torch.float16
     ).to(device)
     pipe.image_processor = SD3CannyImageProcessor()
     print("Pipeline Loaded.")
 
-    control_image = load_image(
-        "https://huggingface.co/datasets/diffusers/diffusers-images-docs/resolve/main/canny.png",
-    )
+    control_image = load_image("example/canny.png")
     prompt = "A Night time photo taken by Leica M11, portrait of a Japanese woman in a kimono, looking at the camera, Cherry blossoms"
 
     generator = torch.Generator(device=device).manual_seed(0)
